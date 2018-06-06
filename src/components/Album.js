@@ -46,15 +46,10 @@ class Album extends Component {
   }
 
   handleHover() {
-  const notPlaying = this.state.isPlaying === false;
-    if (notPlaying) {
-      if (this.setState({ isHovered: true })) {
-      // hover, show play
-      } else {
-      // not hovered, show number
-      }
+    if (this.state.isPlaying && this.state.isHovered) {
+      // play button
     } else {
-      this.setState({ isHovered: index })
+      // pause button
     }
   }
 
@@ -79,8 +74,8 @@ class Album extends Component {
            {this.state.album.songs.map( (song, index) =>
               <tr className="song" key={index}
               onClick={() => this.handleSongClick(song)}
-              onMouseEnter={() => this.setState({ isHovered: true })}
-              onMouseLeave={() => this.setState({ isHovered: false })}>
+              onMouseEnter={() => this.setState({ isHovered: index })}
+              onMouseLeave={() => this.setState({ isHovered: index })}>
                 <td className="song-number">
                   <span className="ion-play"></span>
                   <span className="ion-pause"></span>
