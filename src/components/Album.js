@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import albumData from './../data/albums';
+import PlayerBar from './PlayerBar';
 
 class Album extends Component {
   constructor(props) {
@@ -58,6 +59,20 @@ class Album extends Component {
     }
   }
 
+  handlePrevClick() {
+    {/* find the index of the current song */}
+    const currentIndex = this.state.album.songs.findIndex(song => this.state.currentSong === song);
+    {/* calculate new index by subtractiong one, but not allowing
+    index to fall below zero using Math.max */}
+    const newIndex = Math.max(0, currentIndex - 1);
+    {/* container for previous song in the index */}
+    const newSong = this.state.album.songs[newIndex];
+    {/* using setSong function for new song */}
+    this.setSong(newSong);
+    {/* play! */}
+    this.play();
+  }
+
   render() {
     return (
       <section className="album">
@@ -80,13 +95,19 @@ class Album extends Component {
               <tr className="song" key={index}
               onClick={() => this.handleSongClick(song)}
               onMouseEnter={() => this.setState({ isHovered: index })}
-              onMouseLeave={() => this.setState({ isHovered: index })}>
+              onMouseLeave={() => this.setState({ isHovered: false })}>
                 <td className="song-number">{this.handleHover(song, index)}</td>
                 <td className="song-title">{song.title}</td>
                 <td className="song-duration">{song.duration}</td>
               </tr>
             )}
           </tbody>
+          <PlayerBar
+            isPlaying={this.state.isPlaying}
+            currentSong={this.state.currentSong}
+            handleSongClick={() => this.handleSongClick(this.state.currentSong)}
+            handlePrevClick={() => this.handlePrevClick()}
+          />
         </table>
       </section>
     );
