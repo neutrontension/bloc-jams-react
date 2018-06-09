@@ -15,12 +15,14 @@ class Album extends Component {
       currentSong: album.songs[0],
       currentTime: 0,
       duration: album.songs[0].duration,
+      volume: 0.8,
       isPlaying: false,
       isHovered: false
     };
 
     this.audioElement = document.createElement('audio');
     this.audioElement.src = album.songs[0].audioSrc;
+    this.audioElement.volume = this.state.volume;
   }
 
   componentDidMount() {
@@ -102,6 +104,22 @@ class Album extends Component {
     this.setState({ currentTime: newTime });
   }
 
+  handleVolumeChange(e) {
+    const newVolume = e.target.value;
+    this.audioElement.volume = newVolume;
+    this.setState({ volume: newVolume });
+  }
+
+  formatTime(time) {
+    const songMin = Math.floor(time / 60);
+    const songSec = Math.floor(time % 60);
+    if (songSec < 10) {
+      return songMin + ":0" + songSec
+    } else {
+      return songMin + ":" + songSec
+    };
+  }
+
   render() {
     return (
       <section className="album">
@@ -127,7 +145,7 @@ class Album extends Component {
               onMouseLeave={() => this.setState({ isHovered: false })}>
                 <td className="song-number">{this.handleHover(song, index)}</td>
                 <td className="song-title">{song.title}</td>
-                <td className="song-duration">{song.duration}</td>
+                <td className="song-duration">{this.formatTime(song.duration)}</td>
               </tr>
             )}
           </tbody>
@@ -136,10 +154,13 @@ class Album extends Component {
             currentSong={this.state.currentSong}
             currentTime={this.audioElement.currentTime}
             duration={this.audioElement.duration}
+            volume={this.audioElement.volume}
             handleSongClick={() => this.handleSongClick(this.state.currentSong)}
             handlePrevClick={() => this.handlePrevClick()}
             handleNextClick={() => this.handleNextClick()}
             handleTimeChange={(e) => this.handleTimeChange(e)}
+            handleVolumeChange={(e) => this.handleVolumeChange(e)}
+            formatTime={(time) => this.formatTime(time)}
           />
         </table>
       </section>
