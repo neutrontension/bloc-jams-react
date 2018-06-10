@@ -1,0 +1,23 @@
+section.player-bar {
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+
+section#buttons {
+  padding-bottom: 5px;
+}
+
+div.current-time {
+  font-weight: 300;
+  font-size: 1.5rem;
+}
+
+div.total-time {
+  font-weight: 300;
+  font-size: 0.85rem;
+}
+
+section#time-control {
+  padding-top: 10px;
+  padding-bottom: 25px;
+}
